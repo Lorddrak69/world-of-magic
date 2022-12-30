@@ -3,7 +3,7 @@
 
 
 [![Contributors][contributors-shield]][contributors-url]
-[![Stargazers][stars-shield]]
+![Stargazers][stars-shield]
 [![Issues][issues-shield]][issues-url]
 
 
