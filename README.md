@@ -15,4 +15,12 @@
 
 
 ## Contact
+
 Have a suggestion, complaint, or question? Open an [issue](https://github.com/whiteasvoid/world-of-magic/issues).
+
+
+
+## Blender Preview
+
+- Test Sword
+<img src="https://user-images.githubusercontent.com/51138092/213871351-0a03137e-ae51-401c-9c8f-311778e798ba.png" width="529" height="328">
