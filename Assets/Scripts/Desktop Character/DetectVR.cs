@@ -8,7 +8,7 @@ public class DetectVR : MonoBehaviour
     public GameObject xrOrigin;
     public GameObject desktopCharacter;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         if (startInVR)
