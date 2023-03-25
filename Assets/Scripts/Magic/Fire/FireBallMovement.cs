@@ -9,6 +9,6 @@ public class FireBallMovement : MonoBehaviour
 
     void Update()
     {
-        this.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, fireSpeed));
+        this.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, fireSpeed, 0));
     }
 }

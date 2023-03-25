@@ -9715,7 +9715,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!114 &-8179971210774106962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9728,7 +9728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e4cdb4c9b32fbc498e87f2552d3d90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireSpeed: -7
+  fireSpeed: 7
 --- !u!1 &5136776892841197659
 GameObject:
   m_ObjectHideFlags: 0
