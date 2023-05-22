@@ -6,9 +6,15 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class FireBall_WSpell : MonoBehaviour
 {
 
-    public GameObject fire;
+    [SerializeField] private OnCollisionWand fireBallPrefab;
+    public stats_Wand WandStats {get; private set; }
     public Transform spawnPoint;
     public float spellSpeed = 20;
+
+    private void Awake()
+    {
+        WandStats = GetComponent<stats_Wand>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -17,17 +23,12 @@ public class FireBall_WSpell : MonoBehaviour
         grabbable.activated.AddListener(fireSpell);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void fireSpell(ActivateEventArgs arg)
     {
-        GameObject spawnedFire = Instantiate(fire);
+        OnCollisionWand spawnedFire = Instantiate(fireBallPrefab);
         spawnedFire.transform.position = spawnPoint.position;
-        spawnedFire.GetComponent<Rigidbody>().velocity = spawnPoint.forward * spellSpeed;
+        spawnedFire.Initialize(this);
+        spawnedFire.ApplyForce(spellSpeed, spawnPoint.forward);
         Destroy(spawnedFire,5);
     }
 }
