@@ -7,9 +7,9 @@ TerrainLayer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Black_Sand_Rocks_B
-  m_DiffuseTexture: {fileID: 2800000, guid: 0b59c495bf285c442b1b799c94a9f8aa, type: 3}
-  m_NormalMapTexture: {fileID: 2800000, guid: 28a478660ea9d9541b2118c5e95cbb4e, type: 3}
-  m_MaskMapTexture: {fileID: 2800000, guid: 33e332af78571f249aa14092c01288cb, type: 3}
+  m_DiffuseTexture: {fileID: 2800000, guid: 80f61c429b41d314494701d7d4c77caf, type: 3}
+  m_NormalMapTexture: {fileID: 2800000, guid: b846ae1b2402a5544b180a4dc0d6fde3, type: 3}
+  m_MaskMapTexture: {fileID: 2800000, guid: 3edfb64464bef1647a55994bda8865ce, type: 3}
   m_TileSize: {x: 10, y: 10}
   m_TileOffset: {x: 0, y: 0}
   m_Specular: {r: 0, g: 0, b: 0, a: 0}
