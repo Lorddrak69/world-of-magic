@@ -9524,6 +9524,7 @@ GameObject:
   - component: {fileID: 1673286292}
   - component: {fileID: 1673286291}
   - component: {fileID: 1673286298}
+  - component: {fileID: 1673286299}
   m_Layer: 6
   m_Name: XR Origin
   m_TagString: Player
@@ -9615,7 +9616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 1673286295}
-  m_MoveSpeed: 1
+  m_MoveSpeed: 2
   m_EnableStrafe: 1
   m_EnableFly: 0
   m_UseGravity: 1
@@ -9738,6 +9739,19 @@ MonoBehaviour:
   manaregen: 0
   armor: 10
   magicresist: 10
+--- !u!114 &1673286299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673286289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2033d3b56661c6b43b77eb6aac1454c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveScript: {fileID: 1673286293}
 --- !u!1 &1689845974
 GameObject:
   m_ObjectHideFlags: 0
