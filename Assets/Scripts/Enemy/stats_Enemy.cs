@@ -16,26 +16,26 @@ public class stats_Enemy : MonoBehaviour
     [Header("Animator")]
     public float temp_currenthealth;
 
-    Animator animator;
+    //  Animator animator;
 
     void Start()
     {
         temp_currenthealth = currenthealth;
-        animator = gameObject.GetComponent<Animator>();   
+        //  animator = gameObject.GetComponent<Animator>();   
     }
 
     void Update()
     {
         if (temp_currenthealth > currenthealth)
         {
-            animator.SetTrigger("Take Damage");
-            Debug.Log("Took Damage");
+            // animator.SetTrigger("Take Damage");
+            //  Debug.Log("Took Damage");
             temp_currenthealth = currenthealth;
         }
 
         if (currenthealth <= 0)
         {
-            animator.SetBool("Die", true);
+            //  animator.SetBool("Die", true);
         }
     }
 }

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ignite
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -12,7 +13,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Player
   - 
   - Grabbable
   - Hands
@@ -26,7 +27,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Waypoints
   - 
   - 
   - 

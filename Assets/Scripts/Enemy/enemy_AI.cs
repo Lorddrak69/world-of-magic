@@ -4,12 +4,18 @@ using UnityEngine;
 using UnityEngine.AI;
 public class enemy_AI : MonoBehaviour
 {
+    stats_Enemy stats;
+
     public NavMeshAgent navMeshAgent;               //  Nav mesh agent component
     public float startWaitTime = 4;                 //  Wait time of every action
     public float timeToRotate = 2;                  //  Wait time when the enemy detect near the player without seeing
     public float speedWalk = 6;                     //  Walking speed, speed in the nav mesh agent
     public float speedRun = 9;                      //  Running speed
- 
+    
+    public float attackRate = 2f;
+    public float nextAttackTime = 0f;
+    Animator animator;
+
     public float viewRadius = 15;                   //  Radius of the enemy view
     public float viewAngle = 90;                    //  Angle of the enemy view
     public LayerMask playerMask;                    //  To detect the player with the raycast
@@ -24,7 +30,8 @@ public class enemy_AI : MonoBehaviour
  
     Vector3 playerLastPosition = Vector3.zero;      //  Last position of the player when was near the enemy
     Vector3 m_PlayerPosition;                       //  Last position of the player when the player is seen by the enemy
- 
+
+    float distancePlayerEnemy; 
     float m_WaitTime;                               //  Variable of the wait time that makes the delay
     float m_TimeToRotate;                           //  Variable of the wait time to rotate when the player is near that makes the delay
     bool m_playerInRange;                           //  If the player is in range of vision, state of chasing
@@ -44,6 +51,8 @@ public class enemy_AI : MonoBehaviour
  
         m_CurrentWaypointIndex = 0;                 //  Set the initial waypoint
         navMeshAgent = GetComponent<NavMeshAgent>();
+        
+        animator = gameObject.GetComponent<Animator>();  
  
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
@@ -57,13 +66,32 @@ public class enemy_AI : MonoBehaviour
         if (!m_IsPatrol)
         {
             Chasing();
+            animator.SetBool ("Walk Forward", false);
+            animator.SetBool ("Run Forward", true);
         }
         else
         {
             Patroling();
+            animator.SetBool ("Run Forward", false);
+            animator.SetBool ("Walk Forward", true);
         }
     }
- 
+    
+    private void Attack()
+    {
+        if (attackRate >= nextAttackTime)
+        {
+            animator.SetTrigger ("Stab Attack");
+            nextAttackTime = Time.deltaTime * 5f;
+        }
+        else
+        {
+            nextAttackTime -= Time.deltaTime;
+        }
+            
+        
+    }
+
     private void Chasing()
     {
         //  The enemy is chasing the player
@@ -201,6 +229,13 @@ public class enemy_AI : MonoBehaviour
                 {
                     m_playerInRange = true;             //  The player has been seeing by the enemy and then the nemy starts to chasing the player
                     m_IsPatrol = false;                 //  Change the state to chasing the player
+                    distancePlayerEnemy = Vector3.Distance(transform.position, player.position);
+                    Debug.Log(distancePlayerEnemy);
+                    transform.LookAt(player.transform);
+                    if (distancePlayerEnemy < 2.1f)
+                    {
+                        Attack();
+                    }
                 }
                 else
                 {
