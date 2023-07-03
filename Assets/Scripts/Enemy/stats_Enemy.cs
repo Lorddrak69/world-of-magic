@@ -24,14 +24,6 @@ public class stats_Enemy : MonoBehaviour
 
     void Update()
     {
-        if (temp_currenthealth > currenthealth)
-        {
-            temp_currenthealth = currenthealth;
-        }
-
-        if (currenthealth <= 0)
-        {
-            //animator.SetBool("Die", true);
-        }
+        
     }
 }

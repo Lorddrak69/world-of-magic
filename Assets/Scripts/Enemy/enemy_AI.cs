@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 public class enemy_AI : MonoBehaviour
 {
+    Rigidbody rigidBody;
     float TimerForNextAttack;
     stats_Enemy stats;
     public stats_Player statsPlayer;
@@ -56,6 +57,7 @@ public class enemy_AI : MonoBehaviour
         m_CurrentWaypointIndex = 0;                 //  Set the initial waypoint
         navMeshAgent = GetComponent<NavMeshAgent>();
 
+        rigidBody = GetComponent<Rigidbody>();
         stats = gameObject.GetComponent<stats_Enemy>();
         Debug.Log(stats);
 
@@ -69,6 +71,7 @@ public class enemy_AI : MonoBehaviour
     private void Update()
     {
             EnviromentView();                       //  Check whether or not the player is in the enemy's field of vision
+            TakeDamage();
  
         if (!m_IsPatrol)
         {
@@ -88,6 +91,24 @@ public class enemy_AI : MonoBehaviour
     {
         animator.SetTrigger ("Stab Attack");
         statsPlayer.currenthealth -= stats.damage;   
+    }
+
+    private void Die()
+    {
+        if (stats.currenthealth <= 0)
+        {
+            StartCoroutine(WaitForDestroy());
+        }
+    }
+
+    private void TakeDamage()
+    {
+        Die();
+        if (stats.temp_currenthealth > stats.currenthealth)
+        {
+            stats.temp_currenthealth = stats.currenthealth;
+            animator.SetTrigger("Take Damage");
+        }
     }
 
     private void Chasing()
@@ -264,5 +285,13 @@ public class enemy_AI : MonoBehaviour
                 m_PlayerPosition = player.transform.position;       //  Save the player's current position if the player is in range of vision
             }
         }
+    }
+
+    IEnumerator WaitForDestroy()
+    {
+        rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        animator.SetBool("Die", true);
+        yield return new WaitForSeconds(5);
+        Destroy(gameObject);
     }
 }
