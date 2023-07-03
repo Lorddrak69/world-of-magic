@@ -7,6 +7,9 @@ public class FireBall_WSpell : MonoBehaviour
 {
 
     [SerializeField] private OnCollisionWand fireBallPrefab;
+
+    public stats_Player statsPlayer;
+
     public stats_Wand WandStats {get; private set; }
     public Transform spawnPoint;
     public float spellSpeed = 20;
@@ -30,5 +33,6 @@ public class FireBall_WSpell : MonoBehaviour
         spawnedFire.Initialize(this);
         spawnedFire.ApplyForce(spellSpeed, spawnPoint.forward);
         Destroy(spawnedFire,5);
+        statsPlayer.currentmana -= WandStats.manausage;
     }
 }

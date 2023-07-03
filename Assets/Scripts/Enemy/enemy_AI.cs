@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.AI;
 public class enemy_AI : MonoBehaviour
 {
+    float TimerForNextAttack;
     stats_Enemy stats;
+    public stats_Player statsPlayer;
 
     public NavMeshAgent navMeshAgent;               //  Nav mesh agent component
     public float startWaitTime = 4;                 //  Wait time of every action
@@ -12,7 +14,7 @@ public class enemy_AI : MonoBehaviour
     public float speedWalk = 6;                     //  Walking speed, speed in the nav mesh agent
     public float speedRun = 9;                      //  Running speed
     
-    public float attackRate = 2f;
+    public float attackRate = 3f;
     public float nextAttackTime = 0f;
     Animator animator;
 
@@ -38,9 +40,11 @@ public class enemy_AI : MonoBehaviour
     bool m_PlayerNear;                              //  If the player is near, state of hearing
     bool m_IsPatrol;                                //  If the enemy is patrol, state of patroling
     bool m_CaughtPlayer;                            //  if the enemy has caught the player
- 
+
     void Start()
     {
+        TimerForNextAttack = attackRate;
+
         m_PlayerPosition = Vector3.zero;
         m_IsPatrol = true;
         m_CaughtPlayer = false;
@@ -51,7 +55,10 @@ public class enemy_AI : MonoBehaviour
  
         m_CurrentWaypointIndex = 0;                 //  Set the initial waypoint
         navMeshAgent = GetComponent<NavMeshAgent>();
-        
+
+        stats = gameObject.GetComponent<stats_Enemy>();
+        Debug.Log(stats);
+
         animator = gameObject.GetComponent<Animator>();  
  
         navMeshAgent.isStopped = false;
@@ -79,17 +86,8 @@ public class enemy_AI : MonoBehaviour
     
     private void Attack()
     {
-        if (attackRate >= nextAttackTime)
-        {
-            animator.SetTrigger ("Stab Attack");
-            nextAttackTime = Time.deltaTime * 5f;
-        }
-        else
-        {
-            nextAttackTime -= Time.deltaTime;
-        }
-            
-        
+        animator.SetTrigger ("Stab Attack");
+        statsPlayer.currenthealth -= stats.damage;   
     }
 
     private void Chasing()
@@ -230,11 +228,16 @@ public class enemy_AI : MonoBehaviour
                     m_playerInRange = true;             //  The player has been seeing by the enemy and then the nemy starts to chasing the player
                     m_IsPatrol = false;                 //  Change the state to chasing the player
                     distancePlayerEnemy = Vector3.Distance(transform.position, player.position);
-                    Debug.Log(distancePlayerEnemy);
+                    //Debug.Log(distancePlayerEnemy);
                     transform.LookAt(player.transform);
-                    if (distancePlayerEnemy < 2.1f)
+                    if (TimerForNextAttack > 0)
+                    {
+                        TimerForNextAttack -= Time.deltaTime;
+                    }
+                    else if (distancePlayerEnemy < 2.1f || TimerForNextAttack <= 0)
                     {
                         Attack();
+                        TimerForNextAttack = attackRate;
                     }
                 }
                 else

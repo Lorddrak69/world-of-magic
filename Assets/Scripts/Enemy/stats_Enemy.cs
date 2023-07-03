@@ -8,6 +8,7 @@ public class stats_Enemy : MonoBehaviour
     public float maxhealth = 0.0f;
     public float currenthealth = 0.0f;
     public float healthregen = 0.0f;
+    public float damage = 0.0f;
 
     [Header("Extras")]
     public float armor = 0.0f;
@@ -16,26 +17,21 @@ public class stats_Enemy : MonoBehaviour
     [Header("Animator")]
     public float temp_currenthealth;
 
-    //  Animator animator;
-
     void Start()
     {
-        temp_currenthealth = currenthealth;
-        //  animator = gameObject.GetComponent<Animator>();   
+        temp_currenthealth = currenthealth;  
     }
 
     void Update()
     {
         if (temp_currenthealth > currenthealth)
         {
-            // animator.SetTrigger("Take Damage");
-            //  Debug.Log("Took Damage");
             temp_currenthealth = currenthealth;
         }
 
         if (currenthealth <= 0)
         {
-            //  animator.SetBool("Die", true);
+            //animator.SetBool("Die", true);
         }
     }
 }

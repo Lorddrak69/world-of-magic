@@ -6,4 +6,5 @@ public class stats_Wand : MonoBehaviour
 {
     [Header("Base")]
     public float abilitypower = 0.0f;
+    public float manausage = 15f;
 }
