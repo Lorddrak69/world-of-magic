@@ -7,7 +7,11 @@ public class enemy_AI : MonoBehaviour
     Rigidbody rigidBody;
     float TimerForNextAttack;
     stats_Enemy stats;
+    public GameObject Player;
     public stats_Player statsPlayer;
+    public GameObject scriptHandler;
+    public EnemySpawner spawnLog; 
+    public GameObject spawnWaypoint;
 
     public NavMeshAgent navMeshAgent;               //  Nav mesh agent component
     public float startWaitTime = 4;                 //  Wait time of every action
@@ -42,6 +46,14 @@ public class enemy_AI : MonoBehaviour
     bool m_IsPatrol;                                //  If the enemy is patrol, state of patroling
     bool m_CaughtPlayer;                            //  if the enemy has caught the player
 
+    void Awake()
+    {
+        Player = GameObject.Find("XR Origin");
+        statsPlayer = Player.GetComponent<stats_Player>();
+        scriptHandler = GameObject.Find("ScriptHandler");
+        spawnLog = scriptHandler.GetComponent<EnemySpawner>();
+    }
+
     void Start()
     {
         TimerForNextAttack = attackRate;
@@ -63,6 +75,10 @@ public class enemy_AI : MonoBehaviour
 
         animator = gameObject.GetComponent<Animator>();  
  
+        spawnWaypoint = new GameObject("Waypoint");
+        waypoints[0] = spawnWaypoint.transform;
+        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(546, 434), 37, Random.Range(676, 867));
+
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
         navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
@@ -192,6 +208,7 @@ public class enemy_AI : MonoBehaviour
     public void NextPoint()
     {
         m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
+        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(546, 434), 37, Random.Range(676, 867));
         navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
     }
  
@@ -290,6 +307,9 @@ public class enemy_AI : MonoBehaviour
     IEnumerator WaitForDestroy()
     {
         rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        stats.damage = 0;
+        speedRun = 0;
+        speedWalk = 0;
         animator.SetBool("Die", true);
         yield return new WaitForSeconds(5);
         Destroy(gameObject);
