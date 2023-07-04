@@ -77,7 +77,7 @@ public class enemy_AI : MonoBehaviour
  
         spawnWaypoint = new GameObject("Waypoint");
         waypoints[0] = spawnWaypoint.transform;
-        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(546, 434), 37, Random.Range(676, 867));
+        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(485, 586), 37, Random.Range(662, 841));
 
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
@@ -208,7 +208,7 @@ public class enemy_AI : MonoBehaviour
     public void NextPoint()
     {
         m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
-        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(546, 434), 37, Random.Range(676, 867));
+        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(485, 586), 37, Random.Range(662, 841));
         navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
     }
  
@@ -311,7 +311,8 @@ public class enemy_AI : MonoBehaviour
         speedRun = 0;
         speedWalk = 0;
         animator.SetBool("Die", true);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(3);
+        statsPlayer.currentExperience += stats.experienceDrop;
         Destroy(gameObject);
     }
 }

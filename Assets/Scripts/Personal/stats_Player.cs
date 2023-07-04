@@ -18,6 +18,15 @@ public class stats_Player : MonoBehaviour
     public bool isRegenHealth;
     public bool isRegenMana;
 
+    [Header("Experience")]
+    public float experienceRequired;
+    public float experienceRequiredMultiplier = 100;
+    public float currentExperience;
+    public float experienceOverflow;
+    public int level;
+
+    public float healthPerLevel = 5;
+    public float manaPerLevel = 5;
 
     [Header("Extras")]
     public float armor = 0.0f;
@@ -26,9 +35,32 @@ public class stats_Player : MonoBehaviour
     //Slider for Stats
     public Slider HealthSlider;
     public Slider ManaSlider;
+    public Slider ExperienceSlider;
+    public TMPro.TextMeshProUGUI LevelText;
+
+    public void Start()
+    {
+        experienceRequired = 100f;
+        currentExperience = 0f;
+        level = 1;
+
+    }
 
     public void Update()
     {
+        if(currentExperience >= experienceRequired)
+        {
+            level += 1;
+            experienceOverflow = currentExperience - experienceRequired;
+            experienceRequired = level * experienceRequiredMultiplier;
+            currentExperience = 0 + experienceOverflow;
+            ExperienceSlider.maxValue = experienceRequired;
+            HealthSlider.maxValue = maxhealth;
+            ManaSlider.maxValue = maxmana;
+            maxhealth += healthPerLevel;
+            maxmana += manaPerLevel;
+        }
+
         if(currenthealth > maxhealth)
         {
             currenthealth = maxhealth;
@@ -51,6 +83,8 @@ public class stats_Player : MonoBehaviour
 
         HealthSlider.value = currenthealth;
         ManaSlider.value = currentmana;
+        ExperienceSlider.value = currentExperience;
+        LevelText.text = level.ToString();
     }
 
     IEnumerator RegainHealthOverTime()

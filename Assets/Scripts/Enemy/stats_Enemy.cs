@@ -14,6 +14,9 @@ public class stats_Enemy : MonoBehaviour
     public float armor = 0.0f;
     public float magicresist = 0.0f;
 
+    [Header("Experience")]
+    public float experienceDrop = 30f;
+
     [Header("Animator")]
     public float temp_currenthealth;
 
