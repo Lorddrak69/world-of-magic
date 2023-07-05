@@ -17,9 +17,12 @@ public class FireBall_WSpell : MonoBehaviour
     public Transform spawnPoint;
     public float spellSpeed = 20;
 
+    SoundManager playAudio;
+
     private void Awake()
     {
         WandStats = GetComponent<stats_Wand>();
+        playAudio = GetComponent<SoundManager>();
     }
 
     // Start is called before the first frame update
@@ -41,6 +44,7 @@ public class FireBall_WSpell : MonoBehaviour
             if (statsPlayer.currentmana >= WandStats.manausage)
             {
                 StartCoroutine(StartCooldown());
+                playAudio.audioSource.PlayOneShot(playAudio.clipCastFireSpell, playAudio.volume);
                 OnCollisionWand spawnedFire = Instantiate(fireBallPrefab);
                 spawnedFire.transform.position = spawnPoint.position;
                 spawnedFire.Initialize(this);

@@ -7,6 +7,7 @@ public class enemy_AI : MonoBehaviour
     Rigidbody rigidBody;
     float TimerForNextAttack;
     stats_Enemy stats;
+    SoundManager playAudio;
     public GameObject Player;
     public stats_Player statsPlayer;
     public GameObject scriptHandler;
@@ -70,6 +71,7 @@ public class enemy_AI : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         rigidBody = GetComponent<Rigidbody>();
+        playAudio = GetComponent<SoundManager>();
         stats = gameObject.GetComponent<stats_Enemy>();
         Debug.Log(stats);
 
@@ -106,6 +108,7 @@ public class enemy_AI : MonoBehaviour
     private void Attack()
     {
         animator.SetTrigger ("Stab Attack");
+        playAudio.audioSource.PlayOneShot(playAudio.clipDeal, playAudio.volume);
         statsPlayer.currenthealth -= stats.damage;   
     }
 
@@ -123,6 +126,7 @@ public class enemy_AI : MonoBehaviour
         if (stats.temp_currenthealth > stats.currenthealth)
         {
             stats.temp_currenthealth = stats.currenthealth;
+            playAudio.audioSource.PlayOneShot(playAudio.clipTake, playAudio.volume);
             animator.SetTrigger("Take Damage");
         }
     }

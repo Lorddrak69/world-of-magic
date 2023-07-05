@@ -38,6 +38,9 @@ public class stats_Player : MonoBehaviour
     public Slider ExperienceSlider;
     public TMPro.TextMeshProUGUI LevelText;
 
+    //SpawnPoint
+    public Transform spawnPoint;
+
     public void Start()
     {
         experienceRequired = 100f;

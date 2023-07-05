@@ -8,6 +8,19 @@ public class OnCollisionSword : MonoBehaviour
     int countDummy = 0;
     int countEnemy = 0;
 
+    SoundManager playAudio;
+    public bool grabbed;
+
+    void Awake()
+    {
+        playAudio = GetComponent<SoundManager>();
+    }
+
+    private void GrabSound() 
+    {
+        playAudio.audioSource.PlayOneShot(playAudio.clipGrabSword, playAudio.volume);
+    }
+
     void OnCollisionEnter (Collision coll)
     {
 
@@ -36,8 +49,6 @@ public class OnCollisionSword : MonoBehaviour
         }
 
         if (coll.gameObject.tag == "Enemy") {
-            countEnemy++;
-            Debug.Log("Sword Hit:" + countEnemy);
 
             //Crit mechanic
             float randValue = Random.value;
