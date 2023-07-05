@@ -88,6 +88,7 @@ public class stats_Player : MonoBehaviour
         ManaSlider.value = currentmana;
         ExperienceSlider.value = currentExperience;
         LevelText.text = level.ToString();
+        UpdateHealth();
     }
 
     IEnumerator RegainHealthOverTime()
@@ -121,5 +122,18 @@ public class stats_Player : MonoBehaviour
     {
         currentmana += manaregen;
     }
-
+    
+    void UpdateHealth()
+    {
+        if (currenthealth <= 0)
+        {
+            Respawn();
+            currentExperience = 0;
+            experienceOverflow = 0;
+        }
+    }
+    void Respawn()
+    {
+        gameObject.transform.position = spawnPoint.position;
+    }
 }
