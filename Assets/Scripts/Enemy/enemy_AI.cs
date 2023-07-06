@@ -14,6 +14,9 @@ public class enemy_AI : MonoBehaviour
     public EnemySpawner spawnLog; 
     public GameObject spawnWaypoint;
 
+    public FirstMission questKillCount;
+    public GameObject questHandler;
+
     public NavMeshAgent navMeshAgent;               //  Nav mesh agent component
     public float startWaitTime = 4;                 //  Wait time of every action
     public float timeToRotate = 2;                  //  Wait time when the enemy detect near the player without seeing
@@ -53,6 +56,8 @@ public class enemy_AI : MonoBehaviour
         statsPlayer = Player.GetComponent<stats_Player>();
         scriptHandler = GameObject.Find("ScriptHandler");
         spawnLog = scriptHandler.GetComponent<EnemySpawner>();
+        questHandler = GameObject.Find("QuestHandler");
+        questKillCount = questHandler.GetComponent<FirstMission>();
     }
 
     void Start()
@@ -79,11 +84,11 @@ public class enemy_AI : MonoBehaviour
  
         spawnWaypoint = new GameObject("Waypoint");
         waypoints[0] = spawnWaypoint.transform;
-        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(485, 586), 37, Random.Range(662, 841));
+        waypoints[m_CurrentWaypointIndex].transform.position = new Vector3(Random.Range(485, 586), 37, Random.Range(662, 841));
 
         navMeshAgent.isStopped = false;
         navMeshAgent.speed = speedWalk;             //  Set the navemesh speed with the normal speed of the enemy
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the destination to the first waypoint
+        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].transform.position);    //  Set the destination to the first waypoint
     }
  
     private void Update()
@@ -152,7 +157,7 @@ public class enemy_AI : MonoBehaviour
                 Move(speedWalk);
                 m_TimeToRotate = timeToRotate;
                 m_WaitTime = startWaitTime;
-                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].transform.transform.position);
             }
             else
             {
@@ -185,7 +190,7 @@ public class enemy_AI : MonoBehaviour
         {
             m_PlayerNear = false;           //  The player is no near when the enemy is platroling
             playerLastPosition = Vector3.zero;
-            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);    //  Set the enemy destination to the next waypoint
+            navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].transform.position);    //  Set the enemy destination to the next waypoint
             if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
             {
                 //  If the enemy arrives to the waypoint position then wait for a moment and go to the next
@@ -212,8 +217,8 @@ public class enemy_AI : MonoBehaviour
     public void NextPoint()
     {
         m_CurrentWaypointIndex = (m_CurrentWaypointIndex + 1) % waypoints.Length;
-        waypoints[m_CurrentWaypointIndex].position = new Vector3(Random.Range(485, 586), 37, Random.Range(662, 841));
-        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+        waypoints[m_CurrentWaypointIndex].transform.position = new Vector3(Random.Range(485, 586), 37, Random.Range(662, 841));
+        navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].transform.position);
     }
  
     void Stop()
@@ -242,7 +247,7 @@ public class enemy_AI : MonoBehaviour
             {
                 m_PlayerNear = false;
                 Move(speedWalk);
-                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].position);
+                navMeshAgent.SetDestination(waypoints[m_CurrentWaypointIndex].transform.position);
                 m_WaitTime = startWaitTime;
                 m_TimeToRotate = timeToRotate;
             }
@@ -312,11 +317,20 @@ public class enemy_AI : MonoBehaviour
     {
         rigidBody.constraints = RigidbodyConstraints.FreezeAll;
         stats.damage = 0;
-        speedRun = 0;
+        speedRun =  0;
         speedWalk = 0;
         animator.SetBool("Die", true);
         yield return new WaitForSeconds(3);
         statsPlayer.currentExperience += stats.experienceDrop;
         Destroy(gameObject);
+        Destroy(spawnWaypoint);
+        if (stats.currenthealth <= 0)
+        {
+            spawnLog.ForceSpawn();
+        }
+        if (questKillCount.isActive == true & questKillCount.rewarded == false)
+        {
+            questKillCount.enemyKillCount ++;
+        }
     }
 }

@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Welcome : MonoBehaviour
+public class FirstMission : MonoBehaviour
 {
     public bool isActive {get;set;}
     public bool isCompleted {get;set;}
+    public bool rewarded;
+    public int enemyKillCount;
     public string title;
     public string description;
-    public bool rewarded;
 
     [Header("Rewards")]
     public int experience;
@@ -25,9 +26,12 @@ public class Welcome : MonoBehaviour
 
     void Start()
     {
-        isActive = true;
+        isActive = false;
         isCompleted = false;
         rewarded = false;
+
+        enemyKillCount = 0;
+
     }
 
     void Update()
@@ -35,6 +39,12 @@ public class Welcome : MonoBehaviour
         if (isCompleted && !rewarded)
         {
             Rewards();
+            isActive = false;
+        }
+        
+        if ((isActive) && (enemyKillCount >= 5))
+        {
+            isCompleted = true;
         }
     }
 
